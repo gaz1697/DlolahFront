@@ -1,22 +1,20 @@
-
-import { Outlet, Navigate} from 'react-router-dom';
+import { Outlet, Navigate } from "react-router-dom";
 
 const AuthLayout = () => {
   const isAuthenticated = false;
   return (
     <>
       {isAuthenticated ? (
-        <Navigate to='/' />
-      ): (
+        <Navigate to="/" />
+      ) : (
         <>
-          <section>
-            <Outlet/>
-
+          <section className="w-full">
+            <Outlet />
           </section>
         </>
       )}
     </>
-  )
-}
+  );
+};
 
-export default AuthLayout
+export default AuthLayout;

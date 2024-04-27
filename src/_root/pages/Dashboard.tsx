@@ -1,5 +1,11 @@
+import NavBar from "@/components/navBar";
+
 const Dashboard = () => {
-  return <div></div>;
+  return (
+    <div className="w-full">
+      <NavBar />
+    </div>
+  );
 };
 
 export default Dashboard;

@@ -1,9 +1,11 @@
-import { Button } from "@/components/ui/button";
+import NavBar from "@/components/navBar";
+import CommModule from "@/components/commModule";
 
 const Home = () => {
   return (
-    <div>
-      <Button />
+    <div className="w-full">
+      <NavBar />
+      <CommModule />
     </div>
   );
 };
