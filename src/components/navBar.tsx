@@ -1,25 +1,13 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import NavBarButton from "./ui/NavBarButton";
 
 const NavBar = () => {
   return (
     <nav className="bg-blue-800 p-2 w-full">
       <ul className="flex flex-row space-x-4">
-        <li>
-          <Link className="text-white hover:text-gray-300" to="/">
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link className="text-white hover:text-gray-300" to="/dashboard">
-            Dashboard
-          </Link>
-        </li>
-        <li>
-          <Link className="text-white hover:text-gray-300" to="/about">
-            About us
-          </Link>
-        </li>
+        <NavBarButton buttonName="Home" bPath="/" />
+        <NavBarButton buttonName="Dashboard" bPath="/dashboard" />
+        <NavBarButton buttonName="About us" bPath="/about" />
       </ul>
     </nav>
   );

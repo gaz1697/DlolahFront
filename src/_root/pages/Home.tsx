@@ -1,5 +1,6 @@
 import NavBar from "@/components/navBar";
 import CommModule from "@/components/commModule";
+import TextBox from "@/components/ui/TextBox";
 
 const Home = () => {
   return (
