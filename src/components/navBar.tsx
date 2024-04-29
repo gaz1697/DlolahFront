@@ -1,16 +1,29 @@
-import * as React from "react";
-import NavBarButton from "./ui/NavBarButton";
+import { Link } from 'react-router-dom';
+import navLinks from '../data/nav_links';
 
-const NavBar = () => {
-  return (
-    <nav className="bg-blue-800 p-2 w-full">
-      <ul className="flex flex-row space-x-4">
-        <NavBarButton buttonName="Home" bPath="/" />
-        <NavBarButton buttonName="Dashboard" bPath="/dashboard" />
-        <NavBarButton buttonName="About us" bPath="/about" />
-      </ul>
-    </nav>
-  );
+const Navbar = () => {
+    return (
+        <nav className='bg-primary text-white focus:text-white'>
+            <div className='navbar '>
+                <div className='flex-1'>
+                    <ul className='menu menu-horizontal px-1'>
+                        {navLinks.map(link => (
+                            <li key={link.href}>
+                                <Link to={link.href}>
+                                    {link.title}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <div className='flex-auto'>
+                    <Link to={'/'} className='btn btn-ghost text-xl'>
+                        Dlolah
+                    </Link>
+                </div>
+            </div>
+        </nav>
+    );
 };
 
-export default NavBar;
+export default Navbar;
