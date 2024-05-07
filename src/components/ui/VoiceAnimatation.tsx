@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import lottie from 'lottie-web';
 import animationData from '../../../public/icons/Animation - 1711499666786.json';
+import { voiceRecorderProps } from '../../types';
 
-const MyLottieAnimation: React.FC = () => {
+const MyLottieAnimation = (props: { recordData: voiceRecorderProps }) => {
     const animationContainer = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -12,13 +13,13 @@ const MyLottieAnimation: React.FC = () => {
                 container: animationContainer.current,
                 renderer: 'svg', // or 'canvas', 'html'
                 animationData: animationData,
-                loop: true, // Set to true if you want the animation to loop
+                loop: !props.recordData.recordingStatus, // Set to true if you want the animation to loop
                 autoplay: true // Set to true if you want the animation to start playing as soon as it's loaded
             });
             return () => instance.destroy();
         }
-    }, []);
-
+    }, [props.recordData.recordingStatus]);
+    // console.log(props.recordData.recordingStatus);
     return <div ref={animationContainer} />;
 };
 

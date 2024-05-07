@@ -6,6 +6,6 @@
     "trailingComma": "none",
     "semi": true,
     "proseWrap": "always",
-    "printWidth": 70,
+    "printWidth": 100,
     "plugins": ["prettier-plugin-tailwindcss"]
 }
