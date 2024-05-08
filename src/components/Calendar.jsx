@@ -1,7 +1,7 @@
 // Calendar.tsx
 import React from 'react';
 
-const Calendar: React.FC = () => {
+const Calendar = () => {
     const daysOfWeek = [
         'Sun',
         'Mon',

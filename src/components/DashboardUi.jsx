@@ -1,24 +1,8 @@
 import React, { useState } from 'react';
 
-interface Event {
-    id: number;
-    title: string;
-    time: string;
-}
 
-interface OfficeHour {
-    id: number;
-    day: string;
-    startTime: string;
-    endTime: string;
-}
 
-interface Props {
-    events: Event[];
-    officeHours: OfficeHour[];
-}
-
-const DashboardUi: React.FC<Props> = ({ events, officeHours }) => {
+const DashboardUi = ({ events, officeHours }) => {
     const [newEventTitle, setNewEventTitle] = useState('');
     const [newEventTime, setNewEventTime] = useState('');
     const [editedOfficeHours, setEditedOfficeHours] = useState([
@@ -33,9 +17,9 @@ const DashboardUi: React.FC<Props> = ({ events, officeHours }) => {
     };
 
     const handleEditOfficeHours = (
-        id: number,
-        startTime: string,
-        endTime: string
+        id,
+        startTime,
+        endTime
     ) => {
         // Your logic to edit office hours goes here
         const updatedOfficeHours = editedOfficeHours.map(hour => {

@@ -1,8 +1,9 @@
 import Card from './UI/Card';
 import MyLottieAnimation from './UI/VoiceAnimatation';
-import { voiceRecorderProps } from '../types';
+import React from 'react';
 
-const CommModule = (porps: { recordData: voiceRecorderProps }) => {
+
+const CommModule = (porps) => {
     return (
         <div>
             <Card className='flex h-screen w-full items-center justify-center'>

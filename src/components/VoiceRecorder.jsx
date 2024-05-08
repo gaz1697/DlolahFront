@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
 import RecordRTC from 'recordrtc';
-import { voiceRecorderProps } from '../types';
 
-const VoiceRecorder = (props: { onRecordUserAudio(props: voiceRecorderProps): void }) => {
-    const [recording, setRecording] = useState(false);
-    const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
-    const mediaRecorderRef = useRef<RecordRTC | null>(null);
+
+const VoiceRecorder = (props) => {
+   const [recording, setRecording] = useState(false);
+    const [audioBlob, setAudioBlob] = useState(null);
+    const mediaRecorderRef = useRef(null);
 
     const startRecording = () => {
         navigator.mediaDevices
@@ -37,11 +37,13 @@ const VoiceRecorder = (props: { onRecordUserAudio(props: voiceRecorderProps): vo
             });
         }
         props.onRecordUserAudio({ recordingStatus: recording, audioData: audioBlob });
+        
+        
     };
 
     return (
         <>
-            <button onClick={recording ? stopRecording : startRecording}>
+        <button onClick={recording ? stopRecording : startRecording}>
                 {recording ? 'Stop Recording' : 'Start Recording'}
             </button>
             {audioBlob && (
@@ -50,6 +52,7 @@ const VoiceRecorder = (props: { onRecordUserAudio(props: voiceRecorderProps): vo
                     Your browser does not support the audio element.
                 </audio>
             )}
+            
         </>
     );
 };

@@ -1,11 +1,8 @@
 import { Link } from "react-router-dom";
+import React from 'react';
 
-interface NavBarButtonProps {
-  buttonName: string;
-  bPath: string;
-}
 
-const NavBarButton = ({ buttonName, bPath }: NavBarButtonProps) => {
+const NavBarButton = ({ buttonName, bPath }) => {
   return (
     <li>
       <Link className="text-white hover:text-gray-300" to={bPath}>

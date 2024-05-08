@@ -1,3 +1,4 @@
+import React from 'react';
 import NavBarButton from './UI/NavBarButton';
 
 const Nav = () => {

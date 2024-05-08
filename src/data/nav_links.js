@@ -1,6 +1,5 @@
-import { NavLinkProps } from '../types';
 
-const navLinks: NavLinkProps[] = [
+const navLinks  = [
     {
         title: 'Home',
         href: '/'

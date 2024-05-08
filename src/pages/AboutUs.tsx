@@ -3,6 +3,7 @@ import { Mail, User, MessageSquareText } from 'lucide-react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import classNames from 'classnames';
+import React from 'react';
 
 
 const formSchema = z.object({

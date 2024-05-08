@@ -1,14 +1,15 @@
+import React from 'react';
 import { useState } from 'react';
 import VoiceRecorder from '../components/VoiceRecorder';
 import CommModule from '../components/commModule';
-import { voiceRecorderProps } from '../types';
+
 const Home = () => {
     const [recordData, setRecordData] = useState({
         recordingStatus: false,
         audioData: new Blob()
     });
 
-    const recordUserAudioHandler = (recordDataProps: voiceRecorderProps) => {
+    const recordUserAudioHandler = (recordDataProps) => {
         if (recordDataProps.audioData) {
             setRecordData({
                 recordingStatus: recordDataProps.recordingStatus,
@@ -17,6 +18,8 @@ const Home = () => {
             // console.log('this is ' + recordDataProps.recordingStatus);
         }
     };
+
+    const sendToWhisper = () => {};
 
     return (
         <>

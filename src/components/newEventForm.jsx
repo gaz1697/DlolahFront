@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { eventData } from '../types';
 
-const NewEventForm = (props: { onAddNewEvent(data: eventData): void }) => {
+const NewEventForm = (props) => {
     const [eventName, setEventName] = useState('');
     const [eventDesc, setEventDesc] = useState('');
     const [eventDate, setEventDate] = useState('');
     const [eventStartTime, setEventStartTime] = useState('');
     const [eventEndTime, setEventEndTime] = useState('');
 
-    const inputEventHandler = (type: string, value: string) => {
+    const inputEventHandler = (type, value) => {
         if (type == 'name') {
             setEventName(value);
         } else if (type == 'desc') {
@@ -22,9 +21,9 @@ const NewEventForm = (props: { onAddNewEvent(data: eventData): void }) => {
         }
     };
 
-    const submitHandler: React.FormEventHandler<HTMLFormElement> = event => {
+    const submitHandler = event => {
         event.preventDefault();
-        const eventData: eventData = {
+        const eventData = {
             eventName: eventName,
             eventDesc: eventDesc,
             eventDate: new Date(eventDate),
@@ -54,7 +53,7 @@ const NewEventForm = (props: { onAddNewEvent(data: eventData): void }) => {
                     id='event-name'
                     type='text'
                     placeholder='Enter event name'
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    onChange={(event) =>
                         inputEventHandler('name', event.target.value)
                     }
                     value={eventName}
@@ -72,7 +71,7 @@ const NewEventForm = (props: { onAddNewEvent(data: eventData): void }) => {
                     id='event-description'
                     type='text'
                     placeholder='Enter event description'
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    onChange={(event) =>
                         inputEventHandler('desc', event.target.value)
                     }
                     value={eventDesc}
@@ -86,7 +85,7 @@ const NewEventForm = (props: { onAddNewEvent(data: eventData): void }) => {
                     className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
                     id='event-date'
                     type='date'
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    onChange={(event) =>
                         inputEventHandler('date', event.target.value)
                     }
                     value={eventDate}
@@ -106,7 +105,7 @@ const NewEventForm = (props: { onAddNewEvent(data: eventData): void }) => {
                             className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
                             id='start-time'
                             type='time'
-                            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                            onChange={(event) =>
                                 inputEventHandler('start', event.target.value)
                             }
                             value={eventStartTime}
@@ -123,7 +122,7 @@ const NewEventForm = (props: { onAddNewEvent(data: eventData): void }) => {
                             className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
                             id='end-time'
                             type='time'
-                            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                            onChange={(event) =>
                                 inputEventHandler('end', event.target.value)
                             }
                             value={eventEndTime}

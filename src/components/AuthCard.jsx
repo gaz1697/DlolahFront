@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import LoginCard from './LoginCard';
 import SignupCard from './SignUpCard';
 
-const AuthCard: React.FC = () => {
+const AuthCard = () => {
     const [isLogin, setIsLogin] = useState<boolean>(true);
 
     const toggleForm = () => {

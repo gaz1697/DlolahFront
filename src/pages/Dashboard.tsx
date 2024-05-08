@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NewEventForm from '../components/newEventForm';
-import { eventData } from '../types';
+
 
 const Dashboard = () => {
     const [events, setEventsList] = useState([
@@ -30,7 +30,7 @@ const Dashboard = () => {
 
     const popUpEventForm = () => {};
 
-    const addNewEventHandler = (newEventData: eventData) => {
+    const addNewEventHandler = (newEventData) => {
         console.log(newEventData);
         setEventsList([...events, newEventData]);
     };

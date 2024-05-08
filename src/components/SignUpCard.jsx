@@ -1,8 +1,10 @@
-const LoginCard = () => {
+import React from 'react';
+
+const SignupCard = () => {
     return (
         <div className='flex items-center justify-center'>
             <div className='mb-4 w-96 rounded bg-white px-8 pb-8 pt-6 shadow-md'>
-                <h2 className='mb-6 text-center text-2xl'>Login</h2>
+                <h2 className='mb-6 text-center text-2xl'>Sign Up</h2>
                 <form>
                     <div className='mb-4'>
                         <label
@@ -34,10 +36,10 @@ const LoginCard = () => {
                     </div>
                     <div className='flex items-center justify-between'>
                         <button
-                            className='focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none'
+                            className='focus:shadow-outline rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700 focus:outline-none'
                             type='button'
                         >
-                            Sign In
+                            Sign Up
                         </button>
                     </div>
                 </form>
@@ -46,4 +48,4 @@ const LoginCard = () => {
     );
 };
 
-export default LoginCard;
+export default SignupCard;
