@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Modal from "react-modal";
 import NewEventForm from "../components/newEventForm";
 import AuthCard from "../components/AuthCard";
@@ -6,11 +6,11 @@ import { ref, set, get, child } from "firebase/database";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import OfficeHours from "../components/OfficeHours";
+import { AuthContext } from "../context/authContext";
 
 import { db } from "../firebase/firebase";
 
-const Dashboard = () => {
-  const [currentUser, setCurrentUser] = useState(null);
+const Dashboard = (props) => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
@@ -19,6 +19,7 @@ const Dashboard = () => {
   const [eventsChanged, setEventsChanged] = useState(false);
   const [isNewEventModalOpen, setIsNewEventModalOpen] = useState(false);
   const [isOfficeHoursModalOpen, setIsOfficeHoursModalOpen] = useState(false);
+  const { currentUser, setCurrentUser, logout } = useContext(AuthContext);
 
   const dbRef = ref(db);
 
@@ -29,16 +30,6 @@ const Dashboard = () => {
     });
     return unsubscribe;
   }, []);
-
-  const logout = () => {
-    signOut(auth)
-      .then(() => {
-        console.log("Logged out");
-      })
-      .catch((error) => {
-        console.error("Error logging out:", error);
-      });
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -116,7 +107,6 @@ const Dashboard = () => {
       {currentUser ? (
         <>
           <div>
-            <button onClick={logout}>Logout</button>
             <h2 className="mb-4 text-xl font-semibold text-center">
               Events Schedule
             </h2>
@@ -192,10 +182,7 @@ const Dashboard = () => {
               },
             }}
           >
-            <OfficeHours
-              currentUser={currentUser}
-              setModalState={setIsOfficeHoursModalOpen}
-            />
+            <OfficeHours setModalState={setIsOfficeHoursModalOpen} />
           </Modal>
         </>
       ) : (

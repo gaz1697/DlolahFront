@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
-import MyRouter from './router';
-import { Toaster } from 'sonner';
-
+import React, { useState } from "react";
+import MyRouter from "./router";
+import { Toaster } from "sonner";
+import { AuthProvider } from "./context/authContext";
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-       <div className='font-mono'>
-            <Toaster richColors />
-            <MyRouter />
-        </div>
-  )
+    <div className="font-mono">
+      <Toaster richColors />
+      <AuthProvider>
+        <MyRouter />
+      </AuthProvider>
+    </div>
+  );
 }
 
-export default App
+export default App;
