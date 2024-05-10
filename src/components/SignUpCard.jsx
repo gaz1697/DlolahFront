@@ -1,6 +1,29 @@
 import React from 'react';
+import {
+    createUserWithEmailAndPassword
+  } from "firebase/auth";
+  import { auth } from '../firebase/firebase';
+  import { useState } from "react";
 
 const SignupCard = () => {
+    const [registerEmail, setRegisterEmail] = useState("");
+    const [registerPassword, setRegisterPassword] = useState("");
+    
+    
+
+      const register = async () => {
+        try {
+          const user = await createUserWithEmailAndPassword(
+            auth,
+            registerEmail,
+            registerPassword
+          );
+          console.log(user);
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+
     return (
         <div className='flex items-center justify-center'>
             <div className='mb-4 w-96 rounded bg-white px-8 pb-8 pt-6 shadow-md'>
@@ -11,13 +34,16 @@ const SignupCard = () => {
                             className='mb-2 block text-sm font-bold text-gray-700'
                             htmlFor='username'
                         >
-                            Username
+                            Email
                         </label>
                         <input
                             className='focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none'
-                            id='username'
+                            id='email'
                             type='text'
-                            placeholder='Username'
+                            placeholder='email'
+                            onChange={(event) => {
+                                setRegisterEmail(event.target.value);
+                              }}
                         />
                     </div>
                     <div className='mb-6'>
@@ -32,12 +58,16 @@ const SignupCard = () => {
                             id='password'
                             type='password'
                             placeholder='Password'
+                            onChange={(event) => {
+                                setRegisterPassword(event.target.value);
+                              }}
                         />
                     </div>
                     <div className='flex items-center justify-between'>
                         <button
                             className='focus:shadow-outline rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700 focus:outline-none'
                             type='button'
+                            onClick={register}
                         >
                             Sign Up
                         </button>

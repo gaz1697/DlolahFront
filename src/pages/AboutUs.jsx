@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { Mail, User, MessageSquareText } from 'lucide-react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import classNames from 'classnames';
 import React from 'react';
@@ -44,7 +44,7 @@ const ContactUs = () => {
         register,
         handleSubmit,
         formState: { errors, isSubmitting }
-    } = useForm<z.infer<typeof formSchema>>({
+    } = useForm({
         defaultValues: {
             name: '',
             email: '',
@@ -54,9 +54,7 @@ const ContactUs = () => {
         resolver: zodResolver(formSchema)
     });
 
-    const onSubmit: SubmitHandler<
-        z.infer<typeof formSchema>
-    > = data => {
+    const onSubmit = data => {
         console.log(data);
     };
 

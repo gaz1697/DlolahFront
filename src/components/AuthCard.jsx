@@ -4,7 +4,9 @@ import LoginCard from './LoginCard';
 import SignupCard from './SignUpCard';
 
 const AuthCard = () => {
-    const [isLogin, setIsLogin] = useState<boolean>(true);
+    const [isLogin, setIsLogin] = useState(true);
+    
+    
 
     const toggleForm = () => {
         setIsLogin(!isLogin);
