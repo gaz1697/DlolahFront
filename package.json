@@ -15,6 +15,7 @@
     "classnames": "^2.5.1",
     "dotenv": "^16.4.5",
     "firebase": "^10.11.1",
+    "hark": "^1.2.3",
     "lottie-web": "^5.12.2",
     "lucide-react": "^0.378.0",
     "openai": "^4.42.0",

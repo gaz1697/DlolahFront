@@ -3,11 +3,9 @@ import Modal from "react-modal";
 import NewEventForm from "../components/newEventForm";
 import AuthCard from "../components/AuthCard";
 import { ref, set, get, child } from "firebase/database";
-import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import OfficeHours from "../components/OfficeHours";
 import { AuthContext } from "../context/authContext";
-
 import { db } from "../firebase/firebase";
 
 const Dashboard = (props) => {
@@ -19,7 +17,7 @@ const Dashboard = (props) => {
   const [eventsChanged, setEventsChanged] = useState(false);
   const [isNewEventModalOpen, setIsNewEventModalOpen] = useState(false);
   const [isOfficeHoursModalOpen, setIsOfficeHoursModalOpen] = useState(false);
-  const { currentUser, setCurrentUser, logout } = useContext(AuthContext);
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
 
   const dbRef = ref(db);
 
@@ -38,9 +36,7 @@ const Dashboard = (props) => {
       }
       setError(null);
       try {
-        const snapshot = await get(
-          child(dbRef, "users/" + currentUser.uid + "/events")
-        );
+        const snapshot = await get(child(dbRef, "users/" + currentUser.uid + "/events"));
         if (snapshot.exists()) {
           const eventsArray = Object.values(snapshot.val());
           setEvents(eventsArray);
@@ -85,16 +81,13 @@ const Dashboard = (props) => {
 
   function addNewEventHandler(newEventData) {
     setEventsChanged(!eventsChanged);
-    set(
-      ref(db, "users/" + currentUser.uid + "/events/" + newEventData.eventName),
-      {
-        eventName: newEventData.eventName,
-        eventDesc: newEventData.eventDesc,
-        eventDate: new Date(newEventData.eventDate).toLocaleDateString(),
-        eventStart: newEventData.eventStart,
-        eventEnd: newEventData.eventEnd,
-      }
-    );
+    set(ref(db, "users/" + currentUser.uid + "/events/" + newEventData.eventName), {
+      eventName: newEventData.eventName,
+      eventDesc: newEventData.eventDesc,
+      eventDate: new Date(newEventData.eventDate).toLocaleDateString(),
+      eventStart: newEventData.eventStart,
+      eventEnd: newEventData.eventEnd,
+    });
     closeModal();
   }
 
@@ -107,9 +100,7 @@ const Dashboard = (props) => {
       {currentUser ? (
         <>
           <div>
-            <h2 className="mb-4 text-xl font-semibold text-center">
-              Events Schedule
-            </h2>
+            <h2 className="mb-4 text-xl font-semibold text-center">Events Schedule</h2>
 
             <div className="grid grid-cols-3 gap-4">
               {events.map((event) => (
@@ -182,7 +173,7 @@ const Dashboard = (props) => {
               },
             }}
           >
-            <OfficeHours setModalState={setIsOfficeHoursModalOpen} />
+            <OfficeHours setModalState={setIsOfficeHoursModalOpen} currentUser={currentUser} />
           </Modal>
         </>
       ) : (

@@ -1,28 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react';
-import lottie from 'lottie-web';
-import animationData from '../../../public/icons/Animation - 1711499666786.json';
-
+import React, { useEffect, useRef, useState } from "react";
+import lottie from "lottie-web";
+import animationData from "../../../public/icons/Animation - 1711499666786.json";
 
 const MyLottieAnimation = (props) => {
-    const animationContainer = useRef(null);
+  const animationContainer = useRef(null);
 
-    useEffect(() => {
+  useEffect(() => {
+    if (animationContainer.current) {
+      const instance = lottie.loadAnimation({
+        container: animationContainer.current,
+        renderer: "svg", // or 'canvas', 'html'
+        animationData: animationData,
+        loop: !props.recordData, // Set to true if you want the animation to loop
+        autoplay: true, // Set to true if you want the animation to start playing as soon as it's loaded
+      });
+      return () => instance.destroy();
+    }
+  }, [props.recordData]);
+  console.log(props.recordData);
 
-        if (animationContainer.current) {
-            const instance = lottie.loadAnimation({
-                container: animationContainer.current,
-                renderer: 'svg', // or 'canvas', 'html'
-                animationData: animationData,
-                loop: !props.recordData.recordingStatus, // Set to true if you want the animation to loop
-                autoplay: true // Set to true if you want the animation to start playing as soon as it's loaded
-            });
-            return () => instance.destroy();
-        }
-    }, [props.recordData.recordingStatus]);
-     console.log(props.recordData.recordingStatus);
-
-    return <div ref={animationContainer} />;;
-
+  return <div ref={animationContainer} />;
 };
 
 export default MyLottieAnimation;

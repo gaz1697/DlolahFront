@@ -1,105 +1,99 @@
 import React, { useRef, useState, useEffect } from "react";
 import RecordRTC from "recordrtc";
 import axios from "axios";
+import hark from "hark";
 import { toast, ToastContainer } from "react-toastify";
-
-import { getDatabase, ref, child, get } from "firebase/database";
+import { set } from "react-hook-form";
 
 const VoiceRecorder = (props) => {
-  const [transcription, setTranscription] = useState("");
-  const [uploading, setUploading] = useState(false);
   const [recording, setRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
-  const mediaRecorderRef = useRef(null);
+  const [responding, setResponding] = useState(false);
 
-  const startRecording = () => {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then((stream) => {
-        const mediaRecorder = new RecordRTC(stream, {
-          type: "audio",
-          mimeType: "audio/mpeg",
-        });
-
-        mediaRecorder.startRecording();
-        setRecording(true);
-        mediaRecorderRef.current = mediaRecorder;
-      })
-      .catch((err) => {
-        console.error("Error accessing microphone:", err);
-      });
-    props.onRecordUserAudio({
-      recordingStatus: recording,
-      audioData: audioBlob,
-    });
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stopRecording(() => {
-        setRecording(false);
-        const audioBlob = mediaRecorderRef.current?.getBlob();
-        if (audioBlob) {
-          setAudioBlob(audioBlob);
-        }
-      });
+  const captureAudio = async (callback) => {
+    try {
+      const sound = await navigator.mediaDevices.getUserMedia({ audio: true });
+      callback(sound);
+    } catch (error) {
+      alert("Unable to capture your sound. Please check console logs.");
+      console.error(error);
     }
-    props.onRecordUserAudio({
-      recordingStatus: recording,
-      audioData: audioBlob,
-    });
   };
 
   useEffect(() => {
-    // Start recording when the component mounts
-    startRecording();
+    if (!responding && !recording) {
+      captureAudio((sound) => {
+        const recorder = new RecordRTC(sound, {
+          type: "audio",
+          mimeType: "audio/webm",
+          sampleRate: 22050,
+          desiredSampRate: 16000,
+        });
+        startRecording(sound, recorder);
+      });
+    }
+  }, [responding, recording]);
 
-    // Clean-up function to stop recording when the component unmounts
-    return () => {};
-  }, []);
+  const startRecording = (sound, recorder) => {
+    setRecording(true);
+    // mediaRecorderRef.current = mediaRecorder;
+    props.onRecordUserAudio({ audioStatus: true });
+    var max_seconds = 3;
+    var stopped_speaking_timeout;
+    var speechEvents = hark(sound, {});
+    var isRecording = false;
+    speechEvents.on("speaking", function () {
+      if (!isRecording) {
+        isRecording = true;
+        recorder.startRecording();
+      }
 
-  const sendToWhisper = async () => {
-    setUploading(true);
-    console.log("sendToWhisper");
+      if (recorder.getBlob()) return;
+      clearTimeout(stopped_speaking_timeout);
+    });
+    speechEvents.on("stopped_speaking", function () {
+      stopped_speaking_timeout = setTimeout(function () {
+        if (recorder) {
+          recorder.stopRecording(function () {
+            const blob = recorder.getBlob();
+            if (blob) {
+              setAudioBlob(blob);
+              recorder.clearRecordedData();
+              stopRecording(blob);
+            } else {
+              console.log("No blob after stop");
+            }
+          });
+        }
+      }, max_seconds * 1000);
+    });
+  };
+  const stopRecording = async (blob) => {
+    //  console.log("iam here inside stop recording");
+    setResponding(true);
+    props.onRecordUserAudio({ audioStatus: false });
+    setRecording(false);
     try {
       const formData = new FormData();
-      audioBlob && formData.append("file", audioBlob);
-      const response = await axios.post(
-        `http://localhost:3001/api/transcribe`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-
-      console.log(response);
-
-      toast.success("Transcription successful.");
+      blob && formData.append("file", blob);
+      const response = await axios.post(`http://localhost:3001/api/transcribe`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        responseType: "blob",
+      });
+      const blobUrl = URL.createObjectURL(response.data);
+      const audio = new Audio(blobUrl);
+      audio.onended = () => {
+        console.log("Audio played successfully.");
+        setResponding(false);
+      };
+      audio.play();
+      //   console.log("Transcription successful.");
     } catch (error) {
-      toast.error("An error occurred during transcription.");
-    } finally {
-      setUploading(false);
+      console.error("Error sending audio to Whisper:", error);
     }
-
-    try {
-    } catch (error) {}
   };
 
-  return (
-    <>
-      <button onClick={recording ? stopRecording : startRecording}>
-        {recording ? "Stop Recording" : "Start Recording"}
-      </button>
-      {audioBlob && (
-        <audio controls>
-          console.log("audioBlob:", audioBlob); if(audioBlob)
-          {<source src={URL.createObjectURL(audioBlob)} type="audio/mpeg" />}
-          Your browser does not support the audio element.
-        </audio>
-      )}
-      <button onClick={sendToWhisper}>send</button>
-    </>
-  );
+  return <></>;
 };
 
 export default VoiceRecorder;
