@@ -5,12 +5,14 @@ import { auth } from "../firebase/firebase";
 const LoginCard = () => {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
+  const [error, setError] = useState("");
 
   const login = async () => {
     try {
       const user = await signInWithEmailAndPassword(auth, registerEmail, registerPassword);
       console.log(user);
     } catch (error) {
+      setError("Invalid email or password");
       console.log(error.message);
     }
   };
@@ -18,6 +20,7 @@ const LoginCard = () => {
   return (
     <div className="flex items-center justify-center">
       <div className="mb-4 w-96 rounded bg-white px-8 pb-8 pt-6 shadow-md">
+        {error && <p className="text-red-500 text-center">{error}</p>}
         <h2 className="mb-6 text-center text-2xl">Login</h2>
         <form>
           <div className="mb-4">

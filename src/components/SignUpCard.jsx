@@ -16,6 +16,11 @@ const SignupCard = () => {
   const [error, setError] = useState("");
 
   const register = async () => {
+    if (registerPassword.length < 10 || registerPassword.length > 20) {
+      setError("Password should be at least 10 characters and at most 20 characters");
+      return;
+    }
+
     try {
       const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
       console.log(user.user.uid);
