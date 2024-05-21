@@ -11,7 +11,7 @@ const MyLottieAnimation = (props) => {
         container: animationContainer.current,
         renderer: "svg", // or 'canvas', 'html'
         animationData: animationData,
-        loop: !props.recordData, // Set to true if you want the animation to loop
+        loop: props.recordData, // Set to true if you want the animation to loop
         autoplay: true, // Set to true if you want the animation to start playing as soon as it's loaded
       });
       return () => instance.destroy();

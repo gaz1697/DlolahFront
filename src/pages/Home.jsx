@@ -24,7 +24,6 @@ const Home = () => {
 
   return (
     <>
-      <CommModule recordData={recordData} />
       <VoiceRecorder onRecordUserAudio={recordUserAudioHandler} />
     </>
   );

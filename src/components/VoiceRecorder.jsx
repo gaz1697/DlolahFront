@@ -2,8 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import RecordRTC from "recordrtc";
 import axios from "axios";
 import hark from "hark";
-import { toast, ToastContainer } from "react-toastify";
-import { set } from "react-hook-form";
+import CommModule from "./commModule.jsx";
 
 const VoiceRecorder = (props) => {
   const [recording, setRecording] = useState(false);
@@ -21,9 +20,10 @@ const VoiceRecorder = (props) => {
   };
 
   useEffect(() => {
+    let recorder;
     if (!responding && !recording) {
       captureAudio((sound) => {
-        const recorder = new RecordRTC(sound, {
+        recorder = new RecordRTC(sound, {
           type: "audio",
           mimeType: "audio/webm",
           sampleRate: 22050,
@@ -32,13 +32,18 @@ const VoiceRecorder = (props) => {
         startRecording(sound, recorder);
       });
     }
+    return () => {
+      if (recorder) {
+        recorder.stopRecording();
+      }
+    };
   }, [responding, recording]);
 
   const startRecording = (sound, recorder) => {
     setRecording(true);
     // mediaRecorderRef.current = mediaRecorder;
     props.onRecordUserAudio({ audioStatus: true });
-    var max_seconds = 3;
+    var max_seconds = 0.8;
     var stopped_speaking_timeout;
     var speechEvents = hark(sound, {});
     var isRecording = false;
@@ -93,7 +98,11 @@ const VoiceRecorder = (props) => {
     }
   };
 
-  return <></>;
+  return (
+    <>
+      <CommModule recordData={recording} />
+    </>
+  );
 };
 
 export default VoiceRecorder;
